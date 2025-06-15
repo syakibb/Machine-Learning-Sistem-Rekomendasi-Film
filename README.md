@@ -77,19 +77,19 @@ Dataset gabungan yang digunakan memiliki 23 kolom (fitur). Berikut adalah deskri
 ### Exploratory Data Analysis (EDA)
 
 #### Deteksi Outlier pada Durasi Film
-![Gambar 1: Boxplot Durasi Film](path/to/your/pic1.png)
+![Gambar 1: Boxplot Durasi Film](pics/pic1.png)
 **Insight:** Analisis *outlier* pada kolom `runtime` menggunakan boxplot menunjukkan adanya beberapa titik data yang dianggap *outlier*. Terdapat film dengan durasi 0 menit yang tidak logis, serta beberapa film dengan durasi sangat panjang. Keberadaan *outlier* ini akan menjadi pertimbangan pada tahap persiapan data selanjutnya.
 
 #### Distribusi Genre Film
-![Gambar 2: Distribusi Genre Film](path/to/your/pic2.png)
+![Gambar 2: Distribusi Genre Film](pics/pic2.png)
 **Insight:** Genre **Drama** merupakan genre yang paling dominan dalam dataset, diikuti oleh **Comedy**, **Thriller**, dan **Action**.
 
 #### Distribusi Rating Film
-![Gambar 3: Distribusi Rating Film](path/to/your/pic3.png)
+![Gambar 3: Distribusi Rating Film](pics/pic3.png)
 **Insight:** Mayoritas film memiliki rating antara **6 hingga 7.5**, menunjukkan distribusi yang cenderung normal dengan sedikit kemiringan ke kiri.
 
 #### Kata Paling Umum dalam Sinopsis
-![Gambar 4: Word Cloud dari Sinopsis](path/to/your/pic4.png)
+![Gambar 4: Word Cloud dari Sinopsis](pics/pic4.png)
 **Insight:** Kata-kata seperti 'life', 'love', 'find', dan 'world' sering muncul, menandakan banyak film mengangkat tema universal seputar kehidupan dan percintaan.
 
 ---
