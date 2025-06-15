@@ -74,19 +74,23 @@ Dataset gabungan yang digunakan memiliki 23 kolom (fitur). Berikut adalah deskri
 
 ---
 
-## Exploratory Data Analysis (EDA)
+### Exploratory Data Analysis (EDA)
+
+#### Deteksi Outlier pada Durasi Film
+![Gambar 1: Boxplot Durasi Film](path/to/your/pic1.png)
+**Insight:** Analisis *outlier* pada kolom `runtime` menggunakan boxplot menunjukkan adanya beberapa titik data yang dianggap *outlier*. Terdapat film dengan durasi 0 menit yang tidak logis, serta beberapa film dengan durasi sangat panjang. Keberadaan *outlier* ini akan menjadi pertimbangan pada tahap persiapan data selanjutnya.
 
 #### Distribusi Genre Film
-![Gambar 1: Distribusi Genre Film](pics/pic1.png)
-**Insight:** Dari visualisasi, terlihat bahwa genre **Drama** merupakan yang paling dominan, diikuti oleh **Comedy**, **Thriller**, dan **Action**. Hal ini mengindikasikan bahwa film dengan narasi kuat, elemen humor, atau ketegangan tinggi merupakan yang paling banyak diproduksi dalam dataset ini.
+![Gambar 2: Distribusi Genre Film](path/to/your/pic2.png)
+**Insight:** Genre **Drama** merupakan genre yang paling dominan dalam dataset, diikuti oleh **Comedy**, **Thriller**, dan **Action**.
 
 #### Distribusi Rating Film
-![Gambar 2: Distribusi Rating Film](pics/pic2.png)
-**Insight:** Distribusi rating film cenderung miring ke kiri, dengan mayoritas film memiliki rating antara **6 hingga 7.5**. Sangat sedikit film yang mendapatkan rating sangat rendah atau sangat tinggi, yang merupakan pola umum pada data rating di mana kebanyakan item dinilai "cukup baik".
+![Gambar 3: Distribusi Rating Film](path/to/your/pic3.png)
+**Insight:** Mayoritas film memiliki rating antara **6 hingga 7.5**, menunjukkan distribusi yang cenderung normal dengan sedikit kemiringan ke kiri.
 
 #### Kata Paling Umum dalam Sinopsis
-![Gambar 3: Word Cloud dari Sinopsis](pics/pic3.png)
-**Insight:** Dari word cloud, kata-kata seperti 'life', 'love', 'find', 'world', 'man', dan 'family' terlihat dominan. Ini menandakan bahwa banyak film dalam dataset ini mengangkat tema universal seputar kehidupan, percintaan, pencarian jati diri, dan hubungan keluarga.
+![Gambar 4: Word Cloud dari Sinopsis](path/to/your/pic4.png)
+**Insight:** Kata-kata seperti 'life', 'love', 'find', dan 'world' sering muncul, menandakan banyak film mengangkat tema universal seputar kehidupan dan percintaan.
 
 ---
 
@@ -122,55 +126,54 @@ Sebagai alternatif, model kedua dikembangkan menggunakan teknik *CountVectorizer
 Kedua model yang telah dibangun mampu menghasilkan daftar top-5 rekomendasi film berdasarkan judul film yang diberikan sebagai input. Berikut adalah contoh hasil perbandingan untuk film **'Spider-Man'**:
 
 **Rekomendasi dari Model 1 (TF-IDF):**
-1.  Spider-Man 3
-2.  The Amazing Spider-Man
-3.  The Amazing Spider-Man 2
-4.  Spider-Man 2
-5.  Arachnophobia
+1. Spider-Man 3
+2. Spider-Man 2
+3. Arachnophobia
+4. The Amazing Spider-Man 2
+5. The Amazing Spider-Man
 
 **Rekomendasi dari Model 2 (CountVectorizer / Bag of Words):**
-1.  Kick-Ass
-2.  The Amazing Spider-Man 2
-3.  The Amazing Spider-Man
-4.  The New Guy
-5.  21 Jump Street
+1. Spider-Man 3
+2. Spider-Man 2
+3. The Amazing Spider-Man 2
+4. The Amazing Spider-Man
+5. Arachnophobia
 
 **Analisis Hasil:**
-Kedua model memberikan hasil yang bagus dengan karakteristik yang berbeda. Model berbasis **TF-IDF** menunjukkan **presisi dan relevansi yang sangat tinggi**, dengan merekomendasikan film-film lain dalam waralaba Spider-Man. Ini sangat cocok untuk pengguna yang ingin mendapatkan rekomendasi yang sangat mirip. Di sisi lain, model berbasis **CountVectorizer** memberikan hasil yang lebih **beragam dan berpotensi mengejutkan (*serendipity*)**. Rekomendasi seperti 'Kick-Ass' (tema superhero remaja) dan '21 Jump Street' (tema kehidupan sekolah) menunjukkan kemampuan model untuk menangkap kesamaan konseptual yang lebih luas, tidak hanya kemiripan harfiah.
+Hasil yang hampir identik dari kedua model mengindikasikan bahwa fitur-fitur yang telah direkayasa pada kolom `tags` (seperti nama pemeran dan sutradara) sangat kuat dan dominan, sehingga pilihan antara teknik vektorisasi TF-IDF dan CountVectorizer tidak menghasilkan perbedaan yang signifikan untuk kasus uji ini.
 
 ### Kelebihan dan Kekurangan Pendekatan
-Pendekatan *Content-Based Filtering* yang digunakan dalam proyek ini memiliki beberapa kelebihan dan kekurangan sebagai berikut:
+Pendekatan *Content-Based Filtering* memiliki beberapa kelebihan dan kekurangan sebagai berikut:
 
 #### Kelebihan:
-* **Tidak Memerlukan Data Pengguna Lain**: Model memberikan rekomendasi berdasarkan analisis konten item itu sendiri, sehingga efektif bahkan tanpa riwayat interaksi pengguna lain.
-* **Mampu Merekomendasikan Item Spesifik (*Niche*)**: Jika seorang pengguna menyukai item yang tidak populer, model ini tetap dapat merekomendasikan item lain yang memiliki konten serupa.
-* **Transparan dan Mudah Dijelaskan**: Rekomendasi yang diberikan dapat dijelaskan dengan mudah (misalnya, "Film ini direkomendasikan karena memiliki genre dan pemeran yang sama dengan film yang Anda sukai").
+* **Tidak Memerlukan Data Pengguna Lain**: Efektif tanpa riwayat interaksi pengguna lain.
+* **Mampu Merekomendasikan Item Spesifik (*Niche*)**: Dapat merekomendasikan item yang tidak populer.
+* **Transparan dan Mudah Dijelaskan**: Alasan di balik rekomendasi dapat dijelaskan dengan mudah.
 
 #### Kekurangan:
-* **Terbatas pada Konten yang Sudah Ada**: Model ini cenderung merekomendasikan item yang sangat mirip dengan apa yang sudah disukai pengguna. Hal ini membatasi penemuan item baru yang berbeda genre atau tipe (*serendipity*) dan dapat menciptakan "filter bubble".
-* **Ketergantungan pada Kualitas Fitur**: Kualitas rekomendasi sangat bergantung pada kelengkapan dan kualitas metadata yang digunakan. Jika fitur kontennya buruk, maka hasil rekomendasinya juga tidak akan akurat.
-* **Masalah *Cold Start* untuk Pengguna Baru**: Model ini kesulitan memberikan rekomendasi kepada pengguna baru yang belum memiliki riwayat interaksi atau preferensi sama sekali.
+* **Terbatas pada Konten yang Sudah Ada**: Cenderung merekomendasikan item yang sangat mirip dan kurang memberikan kejutan (*serendipity*).
+* **Ketergantungan pada Kualitas Fitur**: Kualitas rekomendasi sangat bergantung pada kelengkapan metadata.
 
 ---
 
 ## Evaluation
 
-Evaluasi model dilakukan secara kuantitatif menggunakan metrik **Precision**. Metrik ini dipilih karena cocok untuk mengukur seberapa relevan rekomendasi yang diberikan dalam konteks *Content-Based Filtering*.
+Evaluasi model dilakukan secara kuantitatif menggunakan metrik **Precision**.
 
 ### Formula dan Cara Kerja
-- **Formula:** `Precision = (Jumlah Film Rekomendasi yang Relevan) / (Jumlah Total Film yang Direkomendasikan)`
-- **Definisi Relevan:** Dalam proyek ini, sebuah film rekomendasi dianggap "relevan" jika memiliki **setidaknya satu genre yang sama** dengan film acuan.
+-   **Formula:** `Precision = (Jumlah Film Rekomendasi yang Relevan) / (Jumlah Total Film yang Direkomendasikan)`
+-   **Definisi Relevan:** Sebuah film rekomendasi dianggap "relevan" jika memiliki **setidaknya satu genre yang sama** dengan film acuan.
 
 ### Hasil Evaluasi
-Evaluasi pada kasus uji film 'Spider-Man' (genre: *Fantasy, Action, Adventure*) menunjukkan hasil sebagai berikut:
-- **Model 1 (TF-IDF):** Memperoleh nilai Precision @5 sebesar **0.80**.
-- **Model 2 (CountVectorizer):** Juga memperoleh nilai Precision @5 sebesar **0.80**.
+Evaluasi pada kasus uji film 'Spider-Man' menunjukkan hasil sebagai berikut:
+-   **Model 1 (TF-IDF):** Memperoleh nilai Precision @5 sebesar **0.80**.
+-   **Model 2 (CountVectorizer):** Juga memperoleh nilai Precision @5 sebesar **0.80**.
 
-Nilai 0.80 ini berarti bahwa 4 dari 5 film yang direkomendasikan oleh masing-masing model terbukti relevan (memiliki genre yang sama). Hasil ini secara kuantitatif membuktikan bahwa kedua model mampu memberikan rekomendasi dengan tingkat presisi yang tinggi.
+Nilai 0.80 ini berarti bahwa 4 dari 5 film yang direkomendasikan oleh masing-masing model terbukti relevan. Hasil ini secara kuantitatif membuktikan bahwa kedua model mampu memberikan rekomendasi dengan tingkat presisi yang tinggi.
 
 ---
 ## Kesimpulan
-Proyek ini telah berhasil mengembangkan sistem rekomendasi film menggunakan pendekatan *Content-Based Filtering* dengan dua teknik vektorisasi berbeda: TF-IDF dan CountVectorizer.
+Proyek ini telah berhasil mengembangkan sistem rekomendasi film menggunakan pendekatan *Content-Based Filtering* dengan dua teknik vektorisasi berbeda. Kedua model menunjukkan kinerja yang kuat dengan nilai presisi 80% pada kasus uji, membuktikan efektivitasnya dalam merekomendasikan film berdasarkan kemiripan konten. Ditemukan juga bahwa rekayasa fitur yang cermat (pembuatan kolom `tags`) memiliki dampak yang sangat signifikan terhadap hasil. Dengan demikian, tujuan proyek untuk menciptakan dan membandingkan model rekomendasi berdasarkan konten telah tercapai dengan baik.
 
 Berdasarkan hasil pemodelan dan evaluasi, dapat disimpulkan bahwa:
 - Kedua model menunjukkan kinerja yang kuat dengan nilai presisi 80% pada kasus uji, yang membuktikan efektivitasnya dalam merekomendasikan film berdasarkan kemiripan konten.
