@@ -64,6 +64,46 @@ df.info()
 """## **B. Exploratory Data Analysis (EDA)**
 Pada tahap ini, akan dilakukan analisis lebih dalam menggunakan visualisasi data untuk menemukan pola dan wawasan dari dataset.
 
+### **Analisis Kualitas Data**
+Sebelum melakukan analisis lebih dalam pada fitur-fitur spesifik, langkah pertama pada EDA adalah memeriksa kualitas data secara keseluruhan. Ini mencakup pengecekan nilai yang hilang (*missing values*), data duplikat, dan *outlier* untuk memastikan data yang akan digunakan valid dan andal.
+
+#### **Pengecekan Data Duplikat**
+"""
+
+# Menghitung jumlah baris duplikat
+duplicate_rows = df.duplicated().sum()
+print(f"Jumlah baris duplikat dalam dataset: {duplicate_rows}")
+
+"""#### **Pengecekan Nilai yang Hilang (Missing Values)**
+Pengecekan ini bertujuan untuk mengidentifikasi jumlah data yang kosong pada setiap kolom.
+"""
+
+# Menampilkan jumlah missing values pada setiap kolom
+df.isnull().sum()
+
+"""**Insight:**
+
+Output di atas memberikan jumlah pasti dari nilai yang hilang. Terlihat bahwa kolom `overview` (3 nilai), `runtime` (2 nilai), dan `release_date` (1 nilai) memiliki data yang hilang. Informasi ini krusial dan akan menjadi dasar untuk penanganan pada tahap Data Preparation.
+
+#### **Pengecekan Outlier**
+"""
+
+# Menganalisis statistik deskriptif dari kolom runtime
+print("Statistik Deskriptif untuk kolom 'runtime':")
+print(df['runtime'].describe())
+
+# Visualisasi boxplot untuk melihat outlier secara visual
+plt.figure(figsize=(10, 5))
+sns.boxplot(x=df['runtime'])
+plt.title('Boxplot untuk Deteksi Outlier pada Runtime', fontsize=16)
+plt.xlabel('Durasi Film (menit)', fontsize=12)
+plt.show()
+
+"""**Dari statistik deskriptif dan boxplot, terlihat bahwa:**
+
+- Terdapat film dengan runtime 0 menit. Nilai ini tidak logis dan dapat dianggap sebagai outlier atau data yang tidak valid.
+- Terdapat beberapa titik data di sisi kanan plot yang jauh dari sebagian besar data lainnya, menandakan adanya film dengan durasi sangat panjang yang juga merupakan outlier. Keberadaan outlier ini akan menjadi pertimbangan pada tahap persiapan data.
+
 ### **Analisis Univariate: Distribusi Genre Film**
 
 Analisis ini bertujuan untuk melihat genre film mana yang paling banyak terdapat dalam dataset untuk memahami tren genre yang populer.
@@ -237,7 +277,7 @@ new_df.head()
 - **Proses:** Sebuah DataFrame baru bernama new_df dibuat yang hanya terdiri dari kolom id, title, dan tags. Kolom title_x juga diganti namanya menjadi title agar lebih rapi.
 - **Alasan:** Pembuatan DataFrame baru ini bertujuan untuk menjaga kebersihan ruang kerja dan efisiensi memori, karena hanya berisi data yang benar-benar akan digunakan pada tahap pemodelan. Dataset kini telah siap untuk diproses lebih lanjut.
 
-##**D. Modeling**
+##**D. Modeling and Result**
 
 Pada tahap ini, akan dilakukan pengembangan model sistem rekomendasi dengan pendekatan Content-Based Filtering. Pengembangan model mencakup beberapa langkah utama, mulai dari vektorisasi fitur, perhitungan kemiripan, hingga pembuatan fungsi untuk menghasilkan rekomendasi. Dua variasi model akan dibuat menggunakan teknik vektorisasi yang berbeda untuk membandingkan hasilnya.
 
